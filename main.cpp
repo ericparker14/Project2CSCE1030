@@ -17,7 +17,9 @@ const int ROWS = 10;
 const int COLUMNS = 10;
 
 int main(){
-    cout << "ROWS=" << ROWS << endl;
+    int num_array[ROWS][COLUMNS]; // array HIDDEN from user
+    int disp_array[ROWS][COLUMNS]; // array SHOWN to users
+
 
 
 
