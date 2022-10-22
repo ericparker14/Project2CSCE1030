@@ -31,13 +31,6 @@ bool isWrongFormat(string email){
     int atIndex = 0;
     int dotIndex = 0;
     bool needFixed = false;
-
-    /* need to make it so if the 
-    / '@' is right next to the '.'
-    / it  will make them enter again.
-    */
-
-    
     for (int i = 0; i < email.size(); i++) // loop through each character in string
     {
         atIndex = email.find_first_of('@');
@@ -67,8 +60,6 @@ bool isWrongFormat(string email){
     else{
         return false;
     }
-    
-    
 }
 const int ROWS = 10;
 const int COLUMNS = 10;
