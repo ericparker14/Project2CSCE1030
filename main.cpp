@@ -22,10 +22,53 @@ void display(){
     cout << "Fix this function to output disp_array" << endl;
 }
 
-int isWrongFormat(string userEmail){
-    cout << "this needs to check validity of email and return boolean"<< endl;
-    cout << "user email = " << userEmail << endl;
-    return 0;
+bool isWrongFormat(string email){
+    // need to check that the @ is before the .
+    int atCount = 0;
+    int dotCount = 0;
+    char dot = '.';
+    char at = '@';
+    int atIndex = 0;
+    int dotIndex = 0;
+    bool needFixed = false;
+
+    /* need to make it so if the 
+    / '@' is right next to the '.'
+    / it  will make them enter again.
+    */
+
+    
+    for (int i = 0; i < email.size(); i++) // loop through each character in string
+    {
+        atIndex = email.find_first_of('@');
+        dotIndex = email.find_first_of('.');
+        if (atIndex == dotIndex - 1){
+            cout << "There needs to be a character after the @" << endl;
+            return true;
+        }
+        if(dotIndex < atIndex){
+            return true;
+        }
+
+        if(email.at(i) == at){
+            atCount ++;
+        }
+        if (email.at(i) == dot){
+            dotCount ++;
+        }
+    }
+    if (atCount > 1 || dotCount > 1){ // makes sure theres only one dot and one @
+        cout << "There are too many '.'s or '@'s in the email?" << endl;
+        return true;
+    }
+    else if( atCount == 0 || dotCount == 0){ // if there are no '.' or '@'
+        return true;
+    }
+    else{
+        return false;
+    }
+    
+    
 }
 const int ROWS = 10;
 const int COLUMNS = 10;
@@ -40,22 +83,23 @@ int main(){
     int disp_array[ROWS][COLUMNS]; // array SHOWN to users
 
     // ask for email
-    cout << "Enter email address: ";
-    getline(cin, email);
-    isWrongFormat(email);
+    do{
+        cout << "Enter a valid email:";
+        getline(cin, email);
+    }while(isWrongFormat(email));
 
     // ask for size of array
-    while (askAgain){
+    do{
+
         cout << "Enter rows and columns of the matrix: ";
         cin >> aRows >> aColumns;
         if (aRows > ROWS || aColumns > COLUMNS || aRows <=1 || aColumns <=1){
-            cout << "Please enter valid rows/columns.";
             askAgain = true;
         }
         else{
             askAgain = false;
         }
-    }
+    }while(askAgain);
 
     
 
