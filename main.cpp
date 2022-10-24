@@ -91,9 +91,12 @@ int main(){
     bool askAgain = true;
     int column;
     int row;
+    int rowCord;
+    int colCord;
+    
     string email;
-    int num_array[10][10]; // array HIDDEN from user
-    int disp_array[10][10]; // array SHOWN to users
+    int num_array[ROWS][COLUMNS]; // array HIDDEN from user
+    int disp_array[ROWS][COLUMNS]; // array SHOWN to users
     
 
     // ask for email
@@ -125,6 +128,13 @@ int main(){
     disp_array. Ask again and check if the same integer matches
     in disp_array.
     */ 
+    cin >> rowCord >> colCord;
+    disp_array[rowCord][colCord] = num_array[rowCord][colCord];
+    display(disp_array, row, column); // shows updated array
+    // ask for input to match  
+
+
+
 
 
 
