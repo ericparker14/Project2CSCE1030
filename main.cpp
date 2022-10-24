@@ -13,17 +13,42 @@
 #include <cmath>
 using namespace std;
 
-int initialize(int userNum){
+const int ROWS = 10;
+const int COLUMNS = 10;
 
-    cout << "Initialize the two arrays using this function" << endl;
+int initialize(int newArray[][10], int r=-1){ // default return is -1
+    int i;
+    if(r == -1){
+        for(i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLUMNS; j++){
+                newArray[i][j] = -1;
+            }
+
+        }
+    }
+    else{
+        // initialize num_array
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLUMNS; j++){
+                newArray[i][j] = 1 + (rand() % 20);
+            }
+        }
+    }
+    // cout hidden array
     return 0;
 }
-void display(){
-    cout << "Fix this function to output disp_array" << endl;
+void display(int newArray[][10], int rows = 10, int columns = 10){
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < columns; j++){
+            cout << newArray[i][j] << "\t";
+        }
+        cout << endl;
+    }
 }
 
 bool isWrongFormat(string email){
     // need to check that the @ is before the .
+    srand(time(NULL));
     int atCount = 0;
     int dotCount = 0;
     char dot = '.';
@@ -61,17 +86,15 @@ bool isWrongFormat(string email){
         return false;
     }
 }
-const int ROWS = 10;
-const int COLUMNS = 10;
 
 int main(){
     bool askAgain = true;
-    int aRows;
-    int aColumns;
+    int column;
+    int row;
     string email;
-    int points = 10;
-    int num_array[ROWS][COLUMNS]; // array HIDDEN from user
-    int disp_array[ROWS][COLUMNS]; // array SHOWN to users
+    int num_array[10][10]; // array HIDDEN from user
+    int disp_array[10][10]; // array SHOWN to users
+    
 
     // ask for email
     do{
@@ -80,19 +103,28 @@ int main(){
     }while(isWrongFormat(email));
 
     // ask for size of array
+
     do{
 
         cout << "Enter rows and columns of the matrix: ";
-        cin >> aRows >> aColumns;
-        if (aRows > ROWS || aColumns > COLUMNS || aRows <=1 || aColumns <=1){
+        cin >> column >> row;
+        if (column > ROWS || row > COLUMNS || row <=1 || column <=1){
             askAgain = true;
         }
         else{
             askAgain = false;
         }
     }while(askAgain);
-
-    
+    initialize(num_array, 2);
+    initialize(disp_array, -1);
+    display(disp_array, row, column);
+    int points = 10;
+    cout << "Choose coordinates: " ;
+    /*
+    take in coordinates, then copy location from num_array to
+    disp_array. Ask again and check if the same integer matches
+    in disp_array.
+    */ 
 
 
 
