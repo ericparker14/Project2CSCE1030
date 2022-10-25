@@ -1,0 +1,20 @@
+Libraries to include:
+<iostream>
+<unistd.h>
+<cctype>
+<string>
+
+1. Declare two global constants equal to 10 for row and column length max.
+2. Declare two 2d array's of integers using global constants as parameters.
+3. Ask user for email input.
+4. Call function "isWrongFormat" to evaluate email validity and while this returns true (email is invalid), repeat step 3.
+5. Ask user for the number of rows and columns for the array to be initialized with.
+6. If the user inputs rows or columns greater than the global constants for rows and columns, then repeat step 5.
+7. Call function "initialize" to initialize both arrays
+    a. function takes in rows, columns from user input
+    b. for array shown to user, call function with no parameters
+        -the default value of -1 will be used
+    c. for hidden array, call function with 1
+        -the default value is overriden
+8.
+9.
