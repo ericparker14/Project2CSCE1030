@@ -15,10 +15,20 @@ using namespace std;
 
 const int ROWS = 10;
 const int COLUMNS = 10;
+int rowCount = 0;
+int colCount = 0;
+
+
 
 int initialize(int newArray[][10], int r=-1){ // default return is -1
+/* Function: initialize
+ * Parameters: array[][] and int
+ * Return: no return
+ * Description: This function puts elements into array, disp_array and num_array. Checks if the array the default value is being overwritten 
+ * or if its not(if not all elements will be -1) and then the elements inputed are random numbers between 1 to 20 . 
+ */
     int i;
-    if(r == -1){
+    if(r == -1){ //all elements are made to -1
         for(i = 0; i < ROWS; i++){
             for(int j = 0; j < COLUMNS; j++){
                 newArray[i][j] = -1;
@@ -27,7 +37,7 @@ int initialize(int newArray[][10], int r=-1){ // default return is -1
         }
     }
     else{
-        // initialize num_array
+        // initialize num_array with numbers between 1 and 20
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLUMNS; j++){
                 newArray[i][j] = 1 + (rand() % 20);
@@ -38,6 +48,12 @@ int initialize(int newArray[][10], int r=-1){ // default return is -1
     return 0;
 }
 void display(int newArray[][10], int rows = 10, int columns = 10){
+/* Function: display
+ * Parameters: array[][], int rows, int columns
+ * Return: no return
+ * Description: Displays the array[][] of choice 
+ */
+
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
             cout << newArray[i][j] << "\t";
@@ -47,6 +63,12 @@ void display(int newArray[][10], int rows = 10, int columns = 10){
 }
 
 bool isWrongFormat(string email){
+ /* Function: isWrongFormat
+ * Parameters: string
+ * Return: bool
+ * Description: Checks if the email is the correct format and the '@' and '.' are in the correct place 
+ */
+
     // need to check that the @ is before the .
     srand(time(NULL));
     int atCount = 0;
@@ -87,13 +109,40 @@ bool isWrongFormat(string email){
     }
 }
 
+bool CheckRepeat(int disp_array[][COLUMNS], int num_array[][COLUMNS], int rowCheck, int colCheck){
+/* Function: CheckRepeat
+ * Parameters: 2 array[][], user guess row and column
+ * Return: bool
+ * Description: Checks to ensure that the revealed number is not repeated. 
+ */
+
+bool match = false;
+
+	if(disp_array[rowCheck][colCheck] == num_array[rowCheck][colCheck]){
+	match = true;
+	}
+return match;
+}
+
+
 int main(){
+/* Function: main
+ * Parameters: none
+ * Return: 0
+ * Description: Is the main function that calls all the other functions. This is a guessing game where a number is revealed in an
+ * array (the coordinates that are revealed are checked to ensure that the same coordinates are not checked and entered) and user is asked
+ * to guess where else this number could be in the array. If correct the number is revealed in the displayed array and the user gains 2 points.
+ * if incorrect the user loses a point and is asked to continue playing. This continues until user exits or points hit 0.
+ */
+
     bool askAgain = true;
     int column;
     int row;
-    int rowCord;
-    int colCord;
+    int rowCord, rowGuess;
+    int colCord, colGuess;
+    char cont;
     
+    int check_array[50][2];
     string email;
     int num_array[ROWS][COLUMNS]; // array HIDDEN from user
     int disp_array[ROWS][COLUMNS]; // array SHOWN to users
@@ -122,31 +171,51 @@ int main(){
     initialize(disp_array, -1);
     display(disp_array, row, column);
     int points = 10;
-    cout << "Choose coordinates: " ;
+
+    do{    
+
+    cout << "Choose coordinates to reveal: " ;
     /*
     take in coordinates, then copy location from num_array to
     disp_array. Ask again and check if the same integer matches
     in disp_array.
     */ 
     cin >> rowCord >> colCord;
+
+    while (CheckRepeat(disp_array, num_array, rowCord,colCord)){
+    cout << "Invalid coordinates.\nPlease guess coordinates you have not guessed yet: ";
+    cin >> rowCord >> colCord;
+    }
+  
+
     disp_array[rowCord][colCord] = num_array[rowCord][colCord];
     display(disp_array, row, column); // shows updated array
     // ask for input to match  
+    cout << "Choose coordinates for guess: ";
+    cin >> rowGuess >> colGuess;
+    if(num_array[rowGuess][colGuess] == num_array[rowCord][colCord]){
+	disp_array[rowGuess][colGuess] = num_array[rowCord][colCord];
+	points = points + 2;
+	cout << "It's a match! Good job!\nPoints left: " << points << endl;
+	//display(disp_array);
+
+    }
+    else{
+	points--;
+	cout << "It's not a match.\nPoints left: " << points << endl;
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    cout << "Do you wish to continue(y/n)? ";
+    cin >> cont;
+    cont = tolower(cont);
+}while((cont == 'y')||(points == 0));//Checks if user wishes to continue
+if(points == 0){// game exits due to 0 points
+cout << "No more points left. GameOver!\n";
+}
+cout << "Remaining points: " << points << ".\nYour results will be emailed to " << email << endl;
+cout << "Goodbye...\n";
 
 
 
