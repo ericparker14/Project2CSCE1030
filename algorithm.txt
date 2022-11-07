@@ -4,17 +4,94 @@ Libraries to include:
 <cctype>
 <string>
 
-1. Declare two global constants equal to 10 for row and column length max.
-2. Declare two 2d array's of integers using global constants as parameters.
-3. Ask user for email input.
-4. Call function "isWrongFormat" to evaluate email validity and while this returns true (email is invalid), repeat step 3.
-5. Ask user for the number of rows and columns for the array to be initialized with.
-6. If the user inputs rows or columns greater than the global constants for rows and columns, then repeat step 5.
-7. Call function "initialize" to initialize both arrays
-    a. function takes in rows, columns from user input
-    b. for array shown to user, call function with no parameters
-        -the default value of -1 will be used
-    c. for hidden array, call function with 1
-        -the default value is overriden
-8.
-9.
+Algorithm
+1.	Declare two global integers to be use in will used to help pass the arrays into other functions.
+2.	Declare two 2D arrays using global integers.
+3.	In the main function the variables declared are:
+    a.	   bool askAgain – will exit the do-while loop for email verification when returned false      
+   for isWrongFormat()
+       b.	   int column – is the user-entered column size of the array that the user will see during the game
+    c.	    int row - is the user-entered row size of the array that the user will see during the game
+    d.	    int rowCord – is the user-entered row for their revealed coordinate (needs to be checked to not be repeated)
+    e.	    Int rowGuess - is the user-entered row for guessed coordinate (needs to be checked to not be repeated)
+    f.	    int colCord - is the user-entered column for their revealed coordinate (needs to be checked to not be repeated)
+    g.	    int colGuess - is the user-entered column for their revealed coordinate (needs to be checked to not be repeated)
+    h.	    char cont – checks if the user wishes to continue and is the exit parameter for the guessing game’s do-while loop
+    i.	    string email – the users’ email being passed into isWrongFormat() to check email formatting
+    j.	    int num_array[ROWS][COLUMNS] – is the hidden array that the user is guessing
+    k.	    int disp_array[ROWS][COLUMNS] – is the displayed array that the user can see and hold correct guesses.
+4.	First, get the size of the array that the user will guessing. Prompt user to enter row and column and pass both num_array[][] and disp_array[][] into the Initialize() function to input elements into the functions:
+    a.	Initialize() = this gets in parameters 2D array and an integer. The integer passed in checks is the array is to be initialized with all elements equalling      -1 or if the array will receive elements of random numbers (numbers from 1 to 20). The array is initialized; does not have a return as arrays are (in a sense) passed by reference. 
+5.	As main then continues and enters a do-while loop asking if the user will enter their email address.
+    a.	Email is stored into email and is received by user input.
+6.	Next the email is passed into isWrongFormat(), write function isWrongFormat() that returns a Boolean (this function gets called after matrix size is initialized).
+    a.	isWrongFormat() checks that the emailed entered after the matrix size has an ‘@’ sign that is before the period. If there are unacceptable symbols in the name this is also noted as wrong format. 
+    b.	If all requirements are meet the function returns false and will exit the do-while loop 
+    c.	If there is an error encountered the function will return true and the do-while loop  will ask you to reenter your email in the correct format.
+7.	Once exited the do-while loop the game begins and disp_array is displayed using the function display()
+    a.	Display() gets parameters 2D array and has initialized vales row and column if no second and third int are passed into it. The function prints to screen the array with the appropriate num of columns with a tab between each number and appropriate rows with a new line beginning at the start of each row.
+    b.	This function does not return anything.
+8.	Points are initialized – every game starts with 10 points. A point is lost if the user guesses the incorrect coordinate and the user gains 2 points for every correct guess.
+9.	Main() enters the games do-while loop, the exit parameters are either having 0 points or user choices to exit when asked after a round. One round consists of the user entering a coordinate to reveal. The coordinate is checked to see if it has been used before is function CheckRepeat().
+    a.	CheckRepat() gets parameters: disp_array,  num_array, rowCord, & colCord; the function then checks to see if the coordinat has been used by checking if the coordinate in disp_array is the same holding the same value as that same coordinate in num_array. 
+    b.	if the coordinate has not been revealed then the function returns false, and the while loop is exited in main()
+    c.	if the coordinate has been revealed the function returns true and the while loop will continue in main() and give the user an error message and ask to enter different coordinates until CheckRepeat() returns false.
+10.	The user is then asked to enter coordinates for their guess which are stored in rowGuess and colGuess. Main() then enters an if-else branch to check if the coordinates entered match the revealed number in num_array if the two numbers match, points is updated, and the user is notified of the match. Else is the coordinates do not match points is again updated the user receives a message telling them that the coordinates entered was not a match.
+    a.	If the user gets a match the match is revealed in disp_array and display() is called to output to screen
+11.	This completes one round of the game.
+12.	The user is then asked if they wish to continue. If user enters ‘y’ or ‘Y’ the do-while game loop is exited. The loop is also exited if users’ points equal 0. If the user enters ’n’ or ‘N’ the do-while loop repeats starting again at asking for coordinates to be revealed.
+13.	When exiting, if the user exits because of points reaching 0 the user is informed “Game Over”. All users will then see their remaining points left when exiting and told that their results will be emailed to them at the email they entered at the beginning (stored in email). 
+14.	Program outputs a goodbye message and ends
+
+Equations/Expressions used:
+-	1+ Rand() % 20 = outputs random number between 1 to 20
+-	For loop = this loops through all array elements to either check for a match or to initialize element
+-	If-else: checks for certain condition
+-	Do-while: asks the user first for condition and then checks the condition to exit or continue the loop.
+-	Array[#][#] == array[#][#] – checks if two elements are equal
+-	!(function that returns bool) – checks if function returns false instead of true
+
+Expected output:
+For display array without guess(ex. 3 x 3):
+-1	-1	-1
+-1	-1	-1
+-1	-1	-1
+ 
+If there is a revealed number (ex. Revealed number is 15 at coordinate(0,0):
+
+15	-1	-1
+-1	-1	-1
+-1	-1	-1
+
+If number that is guessed is correct(ex. Guessed coordinates (2,1):
+
+15	-1	-1
+-1	-1	-1
+-1	15	-1
+It’s a match
+Points remaining: 11
+Would you like to continue(y/n)?
+
+If the number is incorrect:
+Not a match.
+Points remaining: 9
+Would you like to continue(y/n)?
+
+If email entered is incorrect:
+Ivalid email format [may have what is wrong with email format with error message], please reenter email:
+
+If coordinates entered are repeated:
+Invalid coordinates.
+Please enter coordinates you have not revealed before.
+
+When exiting, by user input:
+Points remaining: 5
+Your results will be emailed to abcd1234@thatisit.org
+Goodbye...
+
+When exiting when user reaches minimum point socre:
+No more points left!
+Game Over!
+Points Remaining: 0
+Your results will be emailed to abcd1234@thatisit.org
+Goodbye...
