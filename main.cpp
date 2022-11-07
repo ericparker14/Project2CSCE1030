@@ -83,10 +83,11 @@ bool isWrongFormat(string email){
         atIndex = email.find_first_of('@');
         dotIndex = email.find_first_of('.');
         if (atIndex == dotIndex - 1){
-            cout << "There needs to be a character after the @" << endl;
+            cout << "There needs to be a '.' after the @(ex. yahoo.com or unt.edu)./n";
             return true;
         }
         if(dotIndex < atIndex){
+	    cout << "Please enter correct format of email(do not include '.' in email name).\n";
             return true;
         }
 
@@ -102,7 +103,8 @@ bool isWrongFormat(string email){
         return true;
     }
     else if( atCount == 0 || dotCount == 0){ // if there are no '.' or '@'
-        return true;
+        cout << "Please include a valid email, must include an '@' and '.' such as @my.unt.edu\n";
+	return true;
     }
     else{
         return false;
@@ -141,18 +143,13 @@ int main(){
     int rowCord, rowGuess;
     int colCord, colGuess;
     char cont;
-    
-    int check_array[50][2];
+    string holdnewchar;  
+  
     string email;
     int num_array[ROWS][COLUMNS]; // array HIDDEN from user
     int disp_array[ROWS][COLUMNS]; // array SHOWN to users
     
 
-    // ask for email
-    do{
-        cout << "Enter a valid email:";
-        getline(cin, email);
-    }while(isWrongFormat(email));
 
     // ask for size of array
 
@@ -171,6 +168,19 @@ int main(){
     initialize(disp_array, -1);
     display(disp_array, row, column);
     int points = 10;
+    // ask for email
+
+        cout << "Enter a valid email:";
+	      getline(cin, holdnewchar); //this is the get the null character at the end of the previous line
+        getline(cin, email);
+
+    while(isWrongFormat(email)){
+	
+        cout << "Enter a valid email:";
+        getline(cin, email);
+    }
+
+
 
     do{    
 
@@ -181,10 +191,19 @@ int main(){
     in disp_array.
     */ 
     cin >> rowCord >> colCord;
+    while((rowCord >= row) || (colCord >= column)){//Checks if the row and column gotten from user is in range
+	cout << "Invalid coordinates.\nPlease enter a row number that is <" << row << " and a column number that is <" << column << ": ";
+	cin >> rowCord >> colCord;
+    }
 
-    while (CheckRepeat(disp_array, num_array, rowCord,colCord)){
+    while (CheckRepeat(disp_array, num_array, rowCord,colCord)){//checks if coordinates are repeated or not
     cout << "Invalid coordinates.\nPlease guess coordinates you have not guessed yet: ";
     cin >> rowCord >> colCord;
+        while((rowCord >= row) || (colCord >= column)){ //Checks if the row and column gotten from user is in range
+	      cout << "Invalid coordinates.\nPlease enter a row number that is <" << row << " and a column number that is <" << column << ": ";
+      	cin >> rowCord >> colCord;
+    }
+
     }
   
 
@@ -193,19 +212,21 @@ int main(){
     // ask for input to match  
     cout << "Choose coordinates for guess: ";
     cin >> rowGuess >> colGuess;
+    while((rowGuess >= row) || (colGuess >= column)){
+	cout << "Invalid coordinates.\nPlease enter a row number that is <" << row << " and a column number that is <" << column << ": ";
+	cin >> rowGuess >> colGuess;
+    }
+
     if(num_array[rowGuess][colGuess] == num_array[rowCord][colCord]){
 	disp_array[rowGuess][colGuess] = num_array[rowCord][colCord];
 	points = points + 2;
 	cout << "It's a match! Good job!\nPoints left: " << points << endl;
-	//display(disp_array);
-
+	display(disp_array, row, column);
     }
     else{
 	points--;
 	cout << "It's not a match.\nPoints left: " << points << endl;
     }
-
-
     
     cout << "Do you wish to continue(y/n)? ";
     cin >> cont;
@@ -214,8 +235,10 @@ int main(){
 if(points == 0){// game exits due to 0 points
 cout << "No more points left. GameOver!\n";
 }
-cout << "Remaining points: " << points << ".\nYour results will be emailed to " << email << endl;
+cout << "Remaining points: " << points << "\nYour results will be emailed to " << email << endl;
 cout << "Goodbye...\n";
+
+
 
 
 
