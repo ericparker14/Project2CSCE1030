@@ -143,7 +143,8 @@ int main(){
     int rowCord, rowGuess;
     int colCord, colGuess;
     char cont;
-    
+    string holdnewchar;  
+  
     string email;
     int num_array[ROWS][COLUMNS]; // array HIDDEN from user
     int disp_array[ROWS][COLUMNS]; // array SHOWN to users
@@ -167,11 +168,10 @@ int main(){
     initialize(disp_array, -1);
     display(disp_array, row, column);
     int points = 10;
-
     // ask for email
 
         cout << "Enter a valid email:";
-	getline(cin,email);
+	      getline(cin, holdnewchar); //this is the get the null character at the end of the previous line
         getline(cin, email);
 
     while(isWrongFormat(email)){
@@ -179,6 +179,7 @@ int main(){
         cout << "Enter a valid email:";
         getline(cin, email);
     }
+
 
 
     do{    
@@ -190,14 +191,19 @@ int main(){
     in disp_array.
     */ 
     cin >> rowCord >> colCord;
-    while((rowCord >= row) || (colCord >= column)){
+    while((rowCord >= row) || (colCord >= column)){//Checks if the row and column gotten from user is in range
 	cout << "Invalid coordinates.\nPlease enter a row number that is <" << row << " and a column number that is <" << column << ": ";
 	cin >> rowCord >> colCord;
     }
 
-    while (CheckRepeat(disp_array, num_array, rowCord,colCord)){
+    while (CheckRepeat(disp_array, num_array, rowCord,colCord)){//checks if coordinates are repeated or not
     cout << "Invalid coordinates.\nPlease guess coordinates you have not guessed yet: ";
     cin >> rowCord >> colCord;
+        while((rowCord >= row) || (colCord >= column)){ //Checks if the row and column gotten from user is in range
+	      cout << "Invalid coordinates.\nPlease enter a row number that is <" << row << " and a column number that is <" << column << ": ";
+      	cin >> rowCord >> colCord;
+    }
+
     }
   
 
@@ -216,14 +222,11 @@ int main(){
 	points = points + 2;
 	cout << "It's a match! Good job!\nPoints left: " << points << endl;
 	display(disp_array, row, column);
-
     }
     else{
 	points--;
 	cout << "It's not a match.\nPoints left: " << points << endl;
     }
-
-
     
     cout << "Do you wish to continue(y/n)? ";
     cin >> cont;
